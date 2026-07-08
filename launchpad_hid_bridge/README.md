@@ -38,6 +38,62 @@ Novationの初代Launchpad(型番 `NOVLPD01`, USB Vendor ID `0x1235` / Product I
   明示的に送るまでスクリプトは実行されない**（`launchpad_node_hid.maxpat`ではloadbangで
   自動送信するようにしてある）。
 
+## 別のパソコンで使う場合
+
+### Intel Mac
+
+このブリッジ自体が不要な可能性が高い。実際に検証したIntel Mac(Big Sur)では、何も
+インストールしなくても「Audio MIDIの設定」→「MIDIスタジオを表示」でLaunchpadが
+そのままMIDI機器として認識された（Apple純正のUSBドライバ側に、この古いLow-Speed機器を
+拾う互換性がまだ残っていたと見られる）。まずは何もせずAudio MIDIの設定を確認し、
+出ていればAbleton Live等から普通のMIDI機器として直接使える。
+
+### 別のApple Silicon Mac
+
+同じ手順が必要。ゼロからではなくこのリポジトリをそのまま使える。
+
+```
+git clone -b claude/legacy-midi-usb-support-gnvy7r https://github.com/pb5/Max-MSP-Jitter.git
+cd Max-MSP-Jitter/launchpad_hid_bridge
+npm install
+```
+
+そのMacのMaxが内蔵しているNode.jsバージョンは異なる可能性があるため、下記
+「動作環境の注意」の手順で`node_version_probe.js`を使って確認し、ズレていたら
+`usb`を該当バージョン向けに入れ直す。
+
+### Windows PC
+
+未検証。WindowsはHIDでもMIDIでもない「ベンダー定義インターフェース」に対して
+標準では汎用ドライバを自動で割り当てないため、libusb経由で掴むには**Zadig**という
+ツールで該当デバイス(Vendor ID `0x1235` / Product ID `0x000e`)にWinUSBドライバを
+手動で割り当てる必要が出てくる可能性が高い。試す場合は個別に手順を検討すること。
+
+## Maxをアップデートした場合の注意
+
+Node for MaxはMaxアプリ自体に内蔵されているため、**Maxをアップデートすると内蔵Node.jsの
+バージョンも一緒に変わることがある**。今回このブリッジが動かなかった根本原因も、
+Max内蔵Node.js(v22.18.0 / ABI127)とターミナルのNode.js(v24.18.0)のバージョン違いだった。
+
+Maxをアップデートした後に急に`usb`が動かなくなったら(「Node script not ready」のまま
+固まる、または`require('usb')`のエラーが出る)、以下の手順を踏む。
+
+1. パッチに`[node.script node_version_probe.js]`オブジェクトを追加し、`script start`
+   メッセージを送って、Maxコンソールで新しいNode.jsバージョンを確認する
+2. そのバージョンのNode.js tarballを一時的にダウンロードしPATHに通した状態で、
+   `launchpad_hid_bridge`フォルダで`usb`を入れ直す
+   ```
+   curl -O https://nodejs.org/dist/vX.Y.Z/node-vX.Y.Z-darwin-arm64.tar.gz
+   tar -xzf node-vX.Y.Z-darwin-arm64.tar.gz
+   export PATH="$(pwd)/node-vX.Y.Z-darwin-arm64/bin:$PATH"
+   node -v
+   rm -rf node_modules/usb && npm install usb
+   ```
+3. Maxを再起動してパッチを開き直す
+
+逆に言えば、Maxのバージョンを固定して使い続けている限りは、一度動けばずっと動く。
+壊れるとしたらMaxをアップデートした時だけ。
+
 ## ファイル
 
 - `launchpad_bridge.js` — 本体。`open`/`close`/`send status data1 [data2]`のメッセージに対応。
