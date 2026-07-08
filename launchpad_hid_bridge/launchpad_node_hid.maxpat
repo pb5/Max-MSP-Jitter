@@ -328,7 +328,7 @@
         "box": {
           "id": "obj-17",
           "maxclass": "comment",
-          "text": "LEDテスト (左下パッド Note 0): 消灯12 / 赤15 / 緑60 / 黄63",
+          "text": "LEDテスト (左上パッド Note 0): 消灯12 / 赤15 / 緑60 / 黄63",
           "numinlets": 1,
           "numoutlets": 0,
           "patching_rect": [
