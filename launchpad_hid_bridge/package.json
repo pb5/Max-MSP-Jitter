@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"description": "Node for Max script that talks to a legacy Novation Launchpad (VID 0x1235 / PID 0x000e) directly over HID, bypassing Max's [hid] object usage-page filtering.",
 	"dependencies": {
-		"node-hid": "^3.0.0"
+		"node-hid": "^3.0.0",
+		"usb": "^2.14.0"
 	}
 }
