@@ -73,7 +73,7 @@
             820,
             20.0
           ],
-          "text": "現在の実装段階: Stage 3/4: 外部MPE対応ソフトシンセへのMIDI出力 (IAC / loopMIDI)",
+          "text": "現在の実装段階: Stage 4/4: チャンネル別ライブモニター（完成）",
           "linecount": 1,
           "fontsize": 13.0
         }
@@ -969,6 +969,179 @@
           ],
           "text": "127"
         }
+      },
+      {
+        "box": {
+          "id": "obj-53",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            1266.0,
+            800,
+            20.0
+          ],
+          "text": "Stage 4: チャンネル別ライブモニター（完成 — 外部MPEソフトシンセをフル制御可能）",
+          "linecount": 1,
+          "fontsize": 13.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-54",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1296.0,
+            80,
+            22.0
+          ],
+          "text": "pak 0 0"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-55",
+          "maxclass": "multislider",
+          "numinlets": 1,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1336.0,
+            300,
+            70
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "obj-56",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            340,
+            1346.0,
+            300,
+            20.0
+          ],
+          "text": "Pressure(Z) per channel (1-16)",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-57",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1426.0,
+            80,
+            22.0
+          ],
+          "text": "pak 0 0"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-58",
+          "maxclass": "multislider",
+          "numinlets": 1,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1466.0,
+            300,
+            70
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "obj-59",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            340,
+            1476.0,
+            300,
+            20.0
+          ],
+          "text": "Timbre(Y) / CC74 per channel (1-16)",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-60",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1556.0,
+            80,
+            22.0
+          ],
+          "text": "pak 0 0"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-61",
+          "maxclass": "multislider",
+          "numinlets": 1,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1596.0,
+            300,
+            70
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "obj-62",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            340,
+            1606.0,
+            300,
+            20.0
+          ],
+          "text": "Pitch Bend(X) per channel (1-16)",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
       }
     ],
     "lines": [
@@ -1424,6 +1597,114 @@
           ],
           "destination": [
             "obj-44",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-13",
+            1
+          ],
+          "destination": [
+            "obj-54",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-13",
+            0
+          ],
+          "destination": [
+            "obj-54",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-54",
+            0
+          ],
+          "destination": [
+            "obj-55",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-17",
+            1
+          ],
+          "destination": [
+            "obj-57",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-17",
+            0
+          ],
+          "destination": [
+            "obj-57",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-57",
+            0
+          ],
+          "destination": [
+            "obj-58",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-9",
+            1
+          ],
+          "destination": [
+            "obj-60",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-9",
+            0
+          ],
+          "destination": [
+            "obj-60",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-60",
+            0
+          ],
+          "destination": [
+            "obj-61",
             0
           ]
         }
