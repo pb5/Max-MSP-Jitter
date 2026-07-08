@@ -9,7 +9,7 @@
 			"modernui" : 1
 		},
 		"classnamespace" : "box",
-		"rect" : [ 85.0, 104.0, 900.0, 520.0 ],
+		"rect" : [ 85.0, 104.0, 900.0, 620.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -43,88 +43,148 @@
 				"box" : 				{
 					"id" : "obj-1",
 					"maxclass" : "comment",
-					"text" : "Launchpad Node-for-Max HID Bridge (bypasses [hid]'s usage-page filtering)",
+					"text" : "Launchpad Node-for-Max Bridge -- raw USB interrupt endpoint carries plain running-status MIDI",
 					"fontsize" : 16.0,
 					"fontface" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 40.0, 20.0, 760.0, 24.0 ]
+					"patching_rect" : [ 40.0, 20.0, 780.0, 24.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-2",
 					"maxclass" : "comment",
-					"text" : "使い方(初回のみ):\n1. ターミナルでこのフォルダ(launchpad_hid_bridge)に移動し `npm install` を実行 (node-hid と max-api を導入)\n\n毎回の使い方:\n1. Launchpadを接続した状態でこのパッチを開く\n2. Maxコンソールを開く (Cmd+Shift+K)\n3. [list] をクリック -> node-hidが見えている全HID機器がコンソールに出る。ここにNovation(1235:000e)が出るか確認\n4. 出ていたら [open] をクリックしてLaunchpadを開く\n5. Launchpadの各ボタンを押して、下の[print HID-raw]の出力をコンソールで観察・記録する\n6. 終わったら [close] をクリック",
+					"text" : "使い方(初回のみ): ターミナルでlaunchpad_hid_bridgeフォルダに移動し `npm install` (+必要ならnpm approve-scripts node-hid / usb → npm rebuild node-hid usb)\n\n毎回の使い方:\n1. Launchpadを接続した状態でこのパッチを開く\n2. [open]をクリック -> Maxコンソールに 'Launchpad opened and polling.' と出ることを確認\n3. Launchpadのボタンを押すと、下のナンバーボックス(status / data1 / data2)とprintに標準MIDIメッセージが出る\n   例: 144(Note On) / ノート番号 / ベロシティ,  176(CC) / CC番号 / 値\n4. 終わったら[close]をクリック",
 					"fontsize" : 12.0,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 40.0, 55.0, 760.0, 170.0 ]
+					"patching_rect" : [ 40.0, 55.0, 780.0, 150.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-3",
 					"maxclass" : "message",
-					"text" : "list",
+					"text" : "open",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 40.0, 250.0, 60.0, 22.0 ]
+					"patching_rect" : [ 40.0, 220.0, 60.0, 22.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-4",
 					"maxclass" : "message",
-					"text" : "open",
+					"text" : "close",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 120.0, 250.0, 60.0, 22.0 ]
+					"patching_rect" : [ 120.0, 220.0, 60.0, 22.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-5",
-					"maxclass" : "message",
-					"text" : "close",
+					"maxclass" : "newobj",
+					"text" : "node.script launchpad_bridge.js",
 					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 200.0, 250.0, 60.0, 22.0 ]
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 40.0, 270.0, 220.0, 22.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-6",
 					"maxclass" : "newobj",
-					"text" : "node.script launchpad_bridge.js",
+					"text" : "route midi",
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 40.0, 300.0, 220.0, 22.0 ]
+					"patching_rect" : [ 40.0, 330.0, 150.0, 22.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-7",
 					"maxclass" : "newobj",
-					"text" : "route raw",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 40.0, 360.0, 150.0, 22.0 ]
+					"text" : "print MIDI-decoded",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 220.0, 330.0, 180.0, 22.0 ]
 				}
 			},
 			{
 				"box" : 				{
 					"id" : "obj-8",
 					"maxclass" : "newobj",
-					"text" : "print HID-raw",
+					"text" : "unpack 0 0 0",
+					"numinlets" : 1,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "" ],
+					"patching_rect" : [ 40.0, 390.0, 150.0, 22.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-9",
+					"maxclass" : "comment",
+					"text" : "status",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 40.0, 420.0, 180.0, 22.0 ]
+					"patching_rect" : [ 40.0, 430.0, 70.0, 20.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-10",
+					"maxclass" : "comment",
+					"text" : "data1 (note/cc#)",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 140.0, 430.0, 110.0, 20.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-11",
+					"maxclass" : "comment",
+					"text" : "data2 (velocity/value)",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 260.0, 430.0, 130.0, 20.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-12",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"patching_rect" : [ 40.0, 455.0, 80.0, 22.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-13",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"patching_rect" : [ 140.0, 455.0, 80.0, 22.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-14",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"patching_rect" : [ 260.0, 455.0, 80.0, 22.0 ]
 				}
 			}
 		],
@@ -132,13 +192,13 @@
 			{
 				"patchline" : 				{
 					"source" : [ "obj-3", 0 ],
-					"destination" : [ "obj-6", 0 ]
+					"destination" : [ "obj-5", 0 ]
 				}
 			},
 			{
 				"patchline" : 				{
 					"source" : [ "obj-4", 0 ],
-					"destination" : [ "obj-6", 0 ]
+					"destination" : [ "obj-5", 0 ]
 				}
 			},
 			{
@@ -155,8 +215,26 @@
 			},
 			{
 				"patchline" : 				{
-					"source" : [ "obj-7", 0 ],
+					"source" : [ "obj-6", 0 ],
 					"destination" : [ "obj-8", 0 ]
+				}
+			},
+			{
+				"patchline" : 				{
+					"source" : [ "obj-8", 0 ],
+					"destination" : [ "obj-12", 0 ]
+				}
+			},
+			{
+				"patchline" : 				{
+					"source" : [ "obj-8", 1 ],
+					"destination" : [ "obj-13", 0 ]
+				}
+			},
+			{
+				"patchline" : 				{
+					"source" : [ "obj-8", 2 ],
+					"destination" : [ "obj-14", 0 ]
 				}
 			}
 		]
