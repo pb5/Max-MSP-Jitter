@@ -73,7 +73,7 @@
             820,
             20.0
           ],
-          "text": "現在の実装段階: Stage 2/4: MPEゾーン設定 & チャンネル別ボイス管理",
+          "text": "現在の実装段階: Stage 3/4: 外部MPE対応ソフトシンセへのMIDI出力 (IAC / loopMIDI)",
           "linecount": 1,
           "fontsize": 13.0
         }
@@ -608,6 +608,367 @@
           "linecount": 1,
           "fontsize": 12.0
         }
+      },
+      {
+        "box": {
+          "id": "obj-32",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            900.0,
+            800,
+            20.0
+          ],
+          "text": "Stage 3: 外部MPE対応ソフトシンセへMIDI出力（IAC Driver / loopMIDIなど仮想MIDIポート経由）",
+          "linecount": 1,
+          "fontsize": 13.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-33",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            926.0,
+            800,
+            20.0
+          ],
+          "text": "出力先はMaxメニュー [Options] > [MIDI Setup] で IAC Driver Bus（Mac）または loopMIDI Port（Windows）を選択してください。",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-34",
+          "maxclass": "newobj",
+          "numinlets": 3,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            24,
+            956.0,
+            70,
+            22.0
+          ],
+          "text": "noteout"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-35",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            124,
+            956.0,
+            70,
+            22.0
+          ],
+          "text": "bendout"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-36",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            224,
+            956.0,
+            70,
+            22.0
+          ],
+          "text": "touchout"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-37",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            324,
+            956.0,
+            90,
+            22.0
+          ],
+          "text": "ctlout 74"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-38",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            986.0,
+            700,
+            20.0
+          ],
+          "text": "Note / Bend / Pressure(Z) / Timbre(Y) を受信チャンネルそのまま外部シンセへパススルー",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-39",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            1026.0,
+            700,
+            20.0
+          ],
+          "text": "MPE Configuration Message（Zoneサイズをシンセへ通知）をクリックで送信:",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-40",
+          "maxclass": "button",
+          "numinlets": 1,
+          "numoutlets": 1,
+          "outlettype": [
+            "bang"
+          ],
+          "patching_rect": [
+            24,
+            1050.0,
+            20.0,
+            20.0
+          ],
+          "parameter_enable": 0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-41",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            54,
+            1052.0,
+            300,
+            20.0
+          ],
+          "text": "Send Zone Config to Synth",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-42",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 6,
+          "outlettype": [
+            "bang",
+            "bang",
+            "bang",
+            "bang",
+            "bang",
+            "bang"
+          ],
+          "patching_rect": [
+            24,
+            1086.0,
+            200,
+            22.0
+          ],
+          "text": "t b b b b b b"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-43",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            24,
+            1186.0,
+            100,
+            22.0
+          ],
+          "text": "ctlout 101 1"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-44",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            150,
+            1186.0,
+            100,
+            22.0
+          ],
+          "text": "ctlout 100 1"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-45",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            276,
+            1186.0,
+            90,
+            22.0
+          ],
+          "text": "ctlout 6 1"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-46",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "outlettype": [],
+          "patching_rect": [
+            392,
+            1186.0,
+            90,
+            22.0
+          ],
+          "text": "ctlout 38 1"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-47",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            1216.0,
+            700,
+            20.0
+          ],
+          "text": "RPN sequence: CC101=0,CC100=6,CC6=MemberCh数,CC38=0, その後 CC101=127/CC100=127 でRPN Null（master ch1へ送信）",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-48",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            1126.0,
+            40,
+            22.0
+          ],
+          "text": "0"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-49",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            150,
+            1126.0,
+            40,
+            22.0
+          ],
+          "text": "6"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-50",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            276,
+            1126.0,
+            40,
+            22.0
+          ],
+          "text": "0"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-51",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            392,
+            1126.0,
+            50,
+            22.0
+          ],
+          "text": "127"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-52",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            500,
+            1126.0,
+            50,
+            22.0
+          ],
+          "text": "127"
+        }
       }
     ],
     "lines": [
@@ -799,6 +1160,270 @@
           ],
           "destination": [
             "obj-30",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-4",
+            2
+          ],
+          "destination": [
+            "obj-34",
+            2
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-4",
+            1
+          ],
+          "destination": [
+            "obj-34",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-4",
+            0
+          ],
+          "destination": [
+            "obj-34",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-9",
+            1
+          ],
+          "destination": [
+            "obj-35",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-9",
+            0
+          ],
+          "destination": [
+            "obj-35",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-13",
+            1
+          ],
+          "destination": [
+            "obj-36",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-13",
+            0
+          ],
+          "destination": [
+            "obj-36",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-17",
+            1
+          ],
+          "destination": [
+            "obj-37",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-17",
+            0
+          ],
+          "destination": [
+            "obj-37",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-40",
+            0
+          ],
+          "destination": [
+            "obj-42",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-42",
+            5
+          ],
+          "destination": [
+            "obj-48",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-48",
+            0
+          ],
+          "destination": [
+            "obj-43",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-42",
+            4
+          ],
+          "destination": [
+            "obj-49",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-49",
+            0
+          ],
+          "destination": [
+            "obj-44",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-42",
+            3
+          ],
+          "destination": [
+            "obj-24",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-24",
+            0
+          ],
+          "destination": [
+            "obj-45",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-42",
+            2
+          ],
+          "destination": [
+            "obj-50",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-50",
+            0
+          ],
+          "destination": [
+            "obj-46",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-42",
+            1
+          ],
+          "destination": [
+            "obj-51",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-51",
+            0
+          ],
+          "destination": [
+            "obj-43",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-42",
+            0
+          ],
+          "destination": [
+            "obj-52",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-52",
+            0
+          ],
+          "destination": [
+            "obj-44",
             0
           ]
         }
