@@ -55,7 +55,7 @@
 				"box" : 				{
 					"id" : "obj-2",
 					"maxclass" : "comment",
-					"text" : "使い方(初回のみ): ターミナルでlaunchpad_hid_bridgeフォルダに移動し `npm install` (+必要ならnpm approve-scripts node-hid / usb → npm rebuild node-hid usb)\n\n毎回の使い方:\n1. Launchpadを接続した状態でこのパッチを開く\n2. [open]をクリック -> Maxコンソールに 'Launchpad opened and polling.' と出ることを確認\n3. Launchpadのボタンを押すと、下のナンバーボックス(status / data1 / data2)とprintに標準MIDIメッセージが出る\n   例: 144(Note On) / ノート番号 / ベロシティ,  176(CC) / CC番号 / 値\n4. 終わったら[close]をクリック",
+					"text" : "使い方(初回のみ): ターミナルでlaunchpad_hid_bridgeフォルダに移動し `npm install` (+必要ならnpm approve-scripts node-hid / usb → npm rebuild node-hid usb)。ネイティブモジュールはMax内蔵Node.js(v22.18.0 / ABI127)向けに `npm rebuild usb --target=22.18.0 --target_arch=arm64 --dist-url=https://nodejs.org/dist` で再ビルドが必要な場合あり\n\n毎回の使い方:\n1. Launchpadを接続した状態でこのパッチを開く (loadbangで自動的に[script start]が送られます)\n2. [open]をクリック -> Maxコンソールに 'Launchpad opened and polling.' と出ることを確認\n3. Launchpadのボタンを押すと、下のナンバーボックス(status / data1 / data2)とprintに標準MIDIメッセージが出る\n   例: 144(Note On) / ノート番号 / ベロシティ,  176(CC) / CC番号 / 値\n4. 終わったら[close]をクリック",
 					"fontsize" : 12.0,
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -186,6 +186,28 @@
 					"outlettype" : [ "", "bang" ],
 					"patching_rect" : [ 260.0, 455.0, 80.0, 22.0 ]
 				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-15",
+					"maxclass" : "newobj",
+					"text" : "loadbang",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 300.0, 220.0, 70.0, 22.0 ]
+				}
+			},
+			{
+				"box" : 				{
+					"id" : "obj-16",
+					"maxclass" : "message",
+					"text" : "script start",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 300.0, 260.0, 90.0, 22.0 ]
+				}
 			}
 		],
 		"lines" : [
@@ -235,6 +257,18 @@
 				"patchline" : 				{
 					"source" : [ "obj-8", 2 ],
 					"destination" : [ "obj-14", 0 ]
+				}
+			},
+			{
+				"patchline" : 				{
+					"source" : [ "obj-15", 0 ],
+					"destination" : [ "obj-16", 0 ]
+				}
+			},
+			{
+				"patchline" : 				{
+					"source" : [ "obj-16", 0 ],
+					"destination" : [ "obj-5", 0 ]
 				}
 			}
 		]
