@@ -156,11 +156,31 @@ Vol/Pan/SndA/SndB/Stop/TrackOn/Solo/Armのように機能が上書き表示さ�
 
 ## 使い方
 
-`launchpad_node_hid.maxpat`を参照。要点だけ:
+`launchpad_node_hid.maxpat`を参照。
 
-1. 初回のみ: `npm install`（Max内蔵Node.jsとのABIが合わない場合は上記の手順で`usb`を入れ直す）
-2. パッチを開く → loadbangが`script start`を自動送信
-3. `open`メッセージをクリック
-4. Launchpadのボタンを押すと`route midi`以下にデコード結果が出る
-5. `send <status> <data1> <data2>`メッセージでLEDを制御できる
+### 初回セットアップ（必須）
+
+ネイティブモジュール(`usb`)は環境固有のビルド済みバイナリで、gitにはソースコードしか
+含まれていない。**このリポジトリをcloneした人は、環境ごとに毎回、以下のビルド作業を
+最初に一度行う必要がある。** 「動作環境の注意」に書いた通り、Max内蔵Node.jsとターミナルの
+Node.jsはバージョンが違うことがほとんどなので、`npm install`だけでは基本的に動かない。
+
+1. `npm install`
+2. Max内蔵Node.jsのバージョンを確認する: パッチに`[node.script node_version_probe.js]`を
+   追加し`script start`メッセージを送信、Maxコンソールに出るバージョンを確認する
+3. そのバージョンのNode.js向けに`usb`を入れ直す
+   ```
+   curl -O https://nodejs.org/dist/vX.Y.Z/node-vX.Y.Z-darwin-arm64.tar.gz
+   tar -xzf node-vX.Y.Z-darwin-arm64.tar.gz
+   export PATH="$(pwd)/node-vX.Y.Z-darwin-arm64/bin:$PATH"
+   node -v   # 確認
+   rm -rf node_modules/usb && npm install usb
+   ```
+
+### 毎回の使い方
+
+1. パッチを開く → loadbangが`script start`を自動送信
+2. `open`メッセージをクリック
+3. Launchpadのボタンを押すと`route midi`以下にデコード結果が出る
+4. `send <status> <data1> <data2>`メッセージでLEDを制御できる
    (例: `send 144 0 15` で左上パッドを赤点灯)
