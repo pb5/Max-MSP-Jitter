@@ -73,7 +73,7 @@
             820,
             20.0
           ],
-          "text": "現在の実装段階: Stage 1/4: MPE MIDI受信 & モニター",
+          "text": "現在の実装段階: Stage 2/4: MPEゾーン設定 & チャンネル別ボイス管理",
           "linecount": 1,
           "fontsize": 13.0
         }
@@ -410,6 +410,204 @@
           "linecount": 1,
           "fontsize": 12.0
         }
+      },
+      {
+        "box": {
+          "id": "obj-21",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            24,
+            630.0,
+            800,
+            20.0
+          ],
+          "text": "Stage 2: MPEゾーン設定（Lower Zone: Master=ch1, Member=ch2〜）とチャンネル別ボイス管理",
+          "linecount": 1,
+          "fontsize": 13.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-22",
+          "maxclass": "newobj",
+          "numinlets": 0,
+          "numoutlets": 1,
+          "outlettype": [
+            "bang"
+          ],
+          "patching_rect": [
+            24,
+            660.0,
+            70,
+            22.0
+          ],
+          "text": "loadbang"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-23",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            700.0,
+            40,
+            22.0
+          ],
+          "text": "15"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-24",
+          "maxclass": "number",
+          "numinlets": 1,
+          "numoutlets": 2,
+          "outlettype": [
+            "",
+            "bang"
+          ],
+          "patching_rect": [
+            24,
+            740.0,
+            140,
+            22.0
+          ],
+          "parameter_enable": 0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-25",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            174,
+            740.0,
+            260,
+            20.0
+          ],
+          "text": "Member Channel数 (N) — 通常2〜16の15ch",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-26",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            220,
+            700.0,
+            40,
+            22.0
+          ],
+          "text": "48"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-27",
+          "maxclass": "number",
+          "numinlets": 1,
+          "numoutlets": 2,
+          "outlettype": [
+            "",
+            "bang"
+          ],
+          "patching_rect": [
+            220,
+            740.0,
+            140,
+            22.0
+          ],
+          "parameter_enable": 0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-28",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            370,
+            740.0,
+            300,
+            20.0
+          ],
+          "text": "Pitch Bend Range (semitones) — MPE既定48",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
+      },
+      {
+        "box": {
+          "id": "obj-29",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 1,
+          "outlettype": [
+            ""
+          ],
+          "patching_rect": [
+            24,
+            790.0,
+            70,
+            22.0
+          ],
+          "text": "pak 0 0"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-30",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 3,
+          "outlettype": [
+            "",
+            "",
+            ""
+          ],
+          "patching_rect": [
+            24,
+            840.0,
+            140,
+            22.0
+          ],
+          "text": "coll mpe_voices"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-31",
+          "maxclass": "comment",
+          "numinlets": 1,
+          "numoutlets": 0,
+          "patching_rect": [
+            184,
+            840.0,
+            420,
+            20.0
+          ],
+          "text": "index=MIDIチャンネル(1-16) / 値=現在発音中のノート番号",
+          "linecount": 1,
+          "fontsize": 12.0
+        }
       }
     ],
     "lines": [
@@ -517,6 +715,90 @@
           ],
           "destination": [
             "obj-19",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-22",
+            0
+          ],
+          "destination": [
+            "obj-23",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-22",
+            0
+          ],
+          "destination": [
+            "obj-26",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-23",
+            0
+          ],
+          "destination": [
+            "obj-24",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-26",
+            0
+          ],
+          "destination": [
+            "obj-27",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-4",
+            2
+          ],
+          "destination": [
+            "obj-29",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-4",
+            0
+          ],
+          "destination": [
+            "obj-29",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "obj-29",
+            0
+          ],
+          "destination": [
+            "obj-30",
             0
           ]
         }
